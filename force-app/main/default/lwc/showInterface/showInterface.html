@@ -1,0 +1,202 @@
+<template>
+    <lightning-card>
+        <lightning-tabset variant="scoped" active-tab-value="2">
+            <template for:each={tabs} for:item="tab">
+                <lightning-tab label={tab.label} key={tab.value} value={tab.value} onactive={handleActive}>
+                </lightning-tab>
+            </template>
+            <!-- <lightning-button-icon icon-name="utility:add"  alternative-text="add" title="add"></lightning-button-icon> -->
+        </lightning-tabset>
+        
+        <div class="slds-p-top_x-large slds-p-bottom_x-large">
+        <div class="slds-float_left">
+            Selected Records :{selectedRecords}
+        </div>
+        <div class="slds-float_right">
+            
+            <lightning-button
+            
+           label="myView"
+           title="myView"
+           onclick={openModal}
+           class="slds-m-left_x-small slds-p-right_xx-small">
+        </lightning-button>
+            <lightning-button  variant="brand" class="slds-p-right_xx-small" label={currentButton} onclick={createNew}></lightning-button>
+            <lightning-button  variant="destructive" label='Delete Selected' onclick={delSelected}></lightning-button>
+        </div>
+    </div>
+        <lightning-formatted-text value={activeValueMessage} ></lightning-formatted-text>
+        <br/>
+       <div>
+        <lightning-datatable
+        key-field="Id"
+        data={datatoShow}
+        columns={columns}
+        draft-values={draftValues}
+        onrowselection={handleSelection}
+        onrowaction={handleRowAction}
+        suppress-bottom-bar="true">
+        </lightning-datatable>
+       </div>
+     
+    </lightning-card>
+    <div class="slds-p-top_x-large" style="height: 150px; background: white; width: auto; border-radius: 2px;">
+            <div class="slds-border_bottom slds-border_top">
+            <div class="slds-float_left">
+                {dataLength} items
+                .{valToShow}
+            </div>
+
+            <div class="slds-align_absolute-center">
+           
+                <lightning-button-icon icon-name="utility:chevronleft" onclick={moveLeft}></lightning-button-icon>
+                <lightning-button label={label1} variant={variant1} onclick={buttonClick}></lightning-button>
+                <lightning-button label={label2} variant={variant2} onclick={buttonClick}></lightning-button>
+                <lightning-button label={label3} variant={variant3} onclick={buttonClick}></lightning-button>
+                <lightning-button-icon icon-name="utility:chevronright" onclick={moveRight}></lightning-button-icon>
+            </div>
+            
+            <div class="slds-float_right">
+                <lightning-combobox
+                name="progress"
+                label="No. of Records to display"
+                value={value}
+                options={options}
+                onchange={handleChange}></lightning-combobox>
+            </div>
+        </div>
+        </div>
+
+    <template if:true={isModalOpen}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Select Fields to display</h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    
+
+                    <lightning-dual-listbox id="selectOptions"
+                    name="Select Options"
+                    label="Select Options"
+                    source-label="Available Options"
+                    selected-label="Selected Options"
+                    options={listOptions}
+                    value={defaultOptions}
+                    required-options={requiredOptions}
+                    onchange={handleChange1}>
+                </lightning-dual-listbox>
+
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={okModal} title="Ok">Ok</button>
+
+                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">Cancel</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+  <template if:true={showSelect}>
+       
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeSelect}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Select Object to display</h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div style="height: 100px; background:white">
+                    <div class="slds-p-around_medium" id="modal-content-id-2">
+                    
+                        <lightning-combobox
+                    name="progress"
+                    label="Objects"
+                    value={val}
+                    placeholder="Select Object"
+                    options={yourData}
+                    onchange={handleChange2} ></lightning-combobox>
+                      
+    
+                    </div>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={okSelect} title="Ok">Ok</button>
+
+                    <button class="slds-button slds-button_neutral" onclick={closeSelect} title="Cancel">Cancel</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <template if:true={editForm}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-03" class="slds-text-heading_medium slds-hyphenate">Edit Form</h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3">
+                    
+
+                    <lightning-record-edit-form record-id={rowId} onsubmit={handleEditSave} onsuccess={handleLoad}
+                    object-api-name={searchKey}>
+                        <lightning-messages>
+                        </lightning-messages>
+            
+
+                        <template for:each={editableFild} for:item="vals">
+                            <lightning-input-field key={rowId} field-name={vals}>
+                            </lightning-input-field>
+                        </template>
+
+                        <lightning-button
+                        class="slds-m-top_small"
+                        variant="brand"
+                        type="submit"
+                        name="update"
+                        label="Update" >
+                        </lightning-button>
+                        </lightning-record-edit-form>
+                    </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                  
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+</template>
