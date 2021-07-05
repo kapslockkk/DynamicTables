@@ -2,12 +2,15 @@ public with sharing class getAllDatas {
    @AuraEnabled
    public static List<SObject> takData(String str)
    {
-    return Database.query('SELECT FIELDS(STANDARD) FROM '+str);
+    //returns all fields of sobject
+      return Database.query('SELECT FIELDS(STANDARD) FROM '+str);
    }
    @AuraEnabled
    public static void toDelRow(String ids)
    {
-        Id idss=Id.valueOf(ids);
+        
+      //to delete data by id
+      Id idss=Id.valueOf(ids);
         System.debug(idss);
 
 
@@ -29,6 +32,8 @@ public with sharing class getAllDatas {
    @AuraEnabled
    public static List<String> getSobjects()
    {
+     
+      // method to return all sobjects from database
       Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe(); 
       List<String>retData=new List<String>();
       
@@ -43,6 +48,8 @@ public with sharing class getAllDatas {
    @AuraEnabled
    public static List<SObject> toCheck(String objectType){
      // String objectType='Account';
+      
+      // method to return all fields of sobject 
    SObjectType sObjType = ((SObject) Type.forName(objectType).newInstance()).getSObjectType();
         DescribeSObjectResult describeResult = sObjType.getDescribe();
 
@@ -57,7 +64,9 @@ public with sharing class getAllDatas {
    @AuraEnabled
    public static List<String> getEditableFields(String objectType)
    {
-       Map<String, Schema.SObjectField> oppFields = Schema.getGlobalDescribe().get(objectType).getDescribe().fields.getMap();
+      
+      //method to get all editable fields from sobject
+      Map<String, Schema.SObjectField> oppFields = Schema.getGlobalDescribe().get(objectType).getDescribe().fields.getMap();
        
        list<string> editableFields = new list<string> ();
        
