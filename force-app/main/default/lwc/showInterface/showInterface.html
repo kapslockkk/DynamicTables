@@ -1,5 +1,6 @@
 <template>
     <lightning-card>
+        <!-- setting the default tabs-->
         <lightning-tabset variant="scoped" active-tab-value="2">
             <template for:each={tabs} for:item="tab">
                 <lightning-tab label={tab.label} key={tab.value} value={tab.value} onactive={handleActive}>
@@ -27,6 +28,7 @@
     </div>
         <lightning-formatted-text value={activeValueMessage} ></lightning-formatted-text>
         <br/>
+         <!-- datatables to show the data of sobject-->
        <div>
         <lightning-datatable
         key-field="Id"
@@ -46,6 +48,7 @@
                 {dataLength} items
                 .{valToShow}
             </div>
+                 <!-- dynamic pagination buttons-->
 
             <div class="slds-align_absolute-center">
            
@@ -67,6 +70,8 @@
         </div>
         </div>
 
+    
+    <!-- first popup to show the type of fields to display-->
     <template if:true={isModalOpen}>
         <!-- Modal/Popup Box LWC starts here -->
         <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
@@ -83,6 +88,8 @@
                     <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Select Fields to display</h2>
                 </header>
                 <!-- Modal/Popup Box LWC body starts here -->
+                
+                 <!-- dual list box to select fields-->
                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
                     
 
@@ -150,7 +157,9 @@
         </section>
         <div class="slds-backdrop slds-backdrop_open"></div>
     </template>
-
+    
+    
+     <!-- second popup to show the type of sobjects to display-->
     <template if:true={editForm}>
         <!-- Modal/Popup Box LWC starts here -->
         <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
@@ -167,6 +176,8 @@
                     <h2 id="modal-heading-03" class="slds-text-heading_medium slds-hyphenate">Edit Form</h2>
                 </header>
                 <!-- Modal/Popup Box LWC body starts here -->
+                
+                 <!-- record edit form to edit the data-->
                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3">
                     
 
