@@ -58,7 +58,8 @@ export default class ShowInterface extends NavigationMixin(LightningElement) {
 
     connectedCallback(){
         this.handleLoad();
-   }    
+   }  
+    //creating default tabs
 
    tabs=[
     { 
@@ -153,6 +154,8 @@ export default class ShowInterface extends NavigationMixin(LightningElement) {
     }
     error;
 
+    //main imperative method to get the data from apex
+    
     handleLoad() {
         this.btncolor(1);
         this.currentPage=1;
@@ -228,6 +231,9 @@ export default class ShowInterface extends NavigationMixin(LightningElement) {
 
   //  requiredOptions = ['2', '7'];
     @track isModalOpen = false;
+    
+    
+    //to track the changes in dropdown
     handleChange1(event) {
         // Get the list of the "value" attribute on all the selected options
         const selectedOptionsList = event.detail.value;
@@ -238,6 +244,8 @@ export default class ShowInterface extends NavigationMixin(LightningElement) {
         console.log(`Options selected: ${selectedOptionsList}`);
       
     }
+    
+    //boolean for opening popup
 
     openModal() {
         // to open modal set isModalOpen tarck value as true
@@ -370,7 +378,7 @@ handleRowAction( event ) {
 
 
    
-
+    //pagination page sizes
     get options() {
         return [
             { label: 5, value: 5 },
@@ -397,6 +405,8 @@ handleRowAction( event ) {
         this.valToShow="page "+this.currentPage+" of "+this.totalPages;
 
     }
+    
+    //for deletion
     delSelected()
     {
         console.log(this.draftValues);
@@ -411,6 +421,8 @@ handleRowAction( event ) {
             });
     }
     yourData=[]
+    
+    // to get new labels of sobjects
     sObjects() {
        this.yourData=[];
        console.log('entered');
@@ -427,7 +439,7 @@ handleRowAction( event ) {
 
 
 
-
+//  options .methods from second popoup box
     openSelect() {
         // to open modal set isModalOpen tarck value as true
         this.showSelect = true;
@@ -490,7 +502,7 @@ handleRowAction( event ) {
     
     
 
-
+    //pagination left and right movement buttons
     @track currentButton1;
     moveRight()
     {
@@ -544,7 +556,7 @@ handleRowAction( event ) {
         
     }
     
-
+    // button color handler
     @track variant1="neutral";
     @track variant2="neutral";
     @track variant3="neutral";
@@ -576,12 +588,15 @@ handleRowAction( event ) {
         }
 
     }
+    //to reset all buttons
     clearButtonform()
     {
         this.variant1="neutral";
         this.variant2="neutral";
         this.variant3="neutral";
     }
+    
+    //handling edit button
     handleEditSave(event)
     {
 
